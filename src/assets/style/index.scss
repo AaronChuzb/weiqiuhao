@@ -1,0 +1,13 @@
+.icon-item{
+  width: 40px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // background: #000;
+  -webkit-app-region: no-drag;
+}
+.icon-item:hover{
+  color: #fff;
+  background: #e81123;
+}
