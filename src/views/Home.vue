@@ -2,33 +2,39 @@
   <el-container style="height: 100vh; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <div class="title">
-         <el-avatar shape="square" size="large" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
-         <div>管理员</div>
+        <el-avatar shape="square" size="large" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+        <div>管理员</div>
       </div>
       <el-menu :default-openeds="['1', '3']">
         <el-menu-item index="1">
-          <i class="el-icon-menu"></i>
-          <span slot="title">设备列表</span>
+          <el-select v-model="value" placeholder="设备选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+          </el-select>
+        </el-menu-item>
+        <el-menu-item index="1">
+          <el-select v-model="value" placeholder="传感器选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+          </el-select>
+        </el-menu-item>
+        <el-menu-item index="1">
+          <el-select v-model="value" placeholder="通道选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+          </el-select>
         </el-menu-item>
       </el-menu>
     </el-aside>
 
     <el-container>
-      <el-header style="text-align: right; font-size: 12px">
-        
-      </el-header>
+      <el-header style="text-align: right; font-size: 12px"> </el-header>
 
       <el-main>
-        <el-table :data="tableData">
-          <el-table-column prop="date" label="日期" width="140"> </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120"> </el-table-column>
-          <el-table-column prop="address" label="地址"> </el-table-column>
-        </el-table>
+        <div class="chart"></div>
       </el-main>
     </el-container>
   </el-container>
 </template>
 <script>
+import * as echarts from 'echarts'
 export default {
   data() {
     const item = {
@@ -40,9 +46,197 @@ export default {
       tableData: Array(20).fill(item),
     }
   },
-  created(){
+  mounted() {
     console.log(this.$api.getWaveLength())
-  }
+    var chartDom = document.querySelector('.chart')
+    var myChart = echarts.init(chartDom)
+    var option
+
+    option = {
+      color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+      title: {
+        text: 'Gradient Stacked Area Chart',
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985',
+          },
+        },
+      },
+      legend: {
+        data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5'],
+      },
+      toolbox: {
+        feature: {
+          saveAsImage: {},
+        },
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      },
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        },
+      ],
+      yAxis: [
+        {
+          type: 'value',
+        },
+      ],
+      series: [
+        {
+          name: 'Line 1',
+          type: 'line',
+          stack: 'Total',
+          smooth: true,
+          lineStyle: {
+            width: 0,
+          },
+          showSymbol: false,
+          areaStyle: {
+            opacity: 0.8,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgb(128, 255, 165)',
+              },
+              {
+                offset: 1,
+                color: 'rgb(1, 191, 236)',
+              },
+            ]),
+          },
+          emphasis: {
+            focus: 'series',
+          },
+          data: [140, 232, 101, 264, 90, 340, 250],
+        },
+        {
+          name: 'Line 2',
+          type: 'line',
+          stack: 'Total',
+          smooth: true,
+          lineStyle: {
+            width: 0,
+          },
+          showSymbol: false,
+          areaStyle: {
+            opacity: 0.8,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgb(0, 221, 255)',
+              },
+              {
+                offset: 1,
+                color: 'rgb(77, 119, 255)',
+              },
+            ]),
+          },
+          emphasis: {
+            focus: 'series',
+          },
+          data: [120, 282, 111, 234, 220, 340, 310],
+        },
+        {
+          name: 'Line 3',
+          type: 'line',
+          stack: 'Total',
+          smooth: true,
+          lineStyle: {
+            width: 0,
+          },
+          showSymbol: false,
+          areaStyle: {
+            opacity: 0.8,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgb(55, 162, 255)',
+              },
+              {
+                offset: 1,
+                color: 'rgb(116, 21, 219)',
+              },
+            ]),
+          },
+          emphasis: {
+            focus: 'series',
+          },
+          data: [320, 132, 201, 334, 190, 130, 220],
+        },
+        {
+          name: 'Line 4',
+          type: 'line',
+          stack: 'Total',
+          smooth: true,
+          lineStyle: {
+            width: 0,
+          },
+          showSymbol: false,
+          areaStyle: {
+            opacity: 0.8,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgb(255, 0, 135)',
+              },
+              {
+                offset: 1,
+                color: 'rgb(135, 0, 157)',
+              },
+            ]),
+          },
+          emphasis: {
+            focus: 'series',
+          },
+          data: [220, 402, 231, 134, 190, 230, 120],
+        },
+        {
+          name: 'Line 5',
+          type: 'line',
+          stack: 'Total',
+          smooth: true,
+          lineStyle: {
+            width: 0,
+          },
+          showSymbol: false,
+          label: {
+            show: true,
+            position: 'top',
+          },
+          areaStyle: {
+            opacity: 0.8,
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: 'rgb(255, 191, 0)',
+              },
+              {
+                offset: 1,
+                color: 'rgb(224, 62, 76)',
+              },
+            ]),
+          },
+          emphasis: {
+            focus: 'series',
+          },
+          data: [220, 302, 181, 234, 210, 290, 150],
+        },
+      ],
+    }
+
+    option && myChart.setOption(option)
+  },
 }
 </script>
 <style>
@@ -56,17 +250,18 @@ export default {
 .el-aside {
   color: #333;
 }
-.title{
+.title {
   padding: 10px 0;
   display: flex;
   align-items: center;
   /* justify-content: center; */
-  
 }
-.el-avatar{
+.el-avatar {
   margin-right: 15px;
   margin-left: 15px;
 }
+.chart{
+  height: 200px;
+  width: 300px;
+}
 </style>
-
-
