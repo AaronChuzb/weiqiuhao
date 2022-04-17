@@ -22,16 +22,13 @@
       <el-header style="text-align: right; font-size: 12px"> </el-header>
 
       <el-main>
-        <el-table :data="tableData">
-          <el-table-column prop="date" label="日期" width="140"> </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120"> </el-table-column>
-          <el-table-column prop="address" label="地址"> </el-table-column>
-        </el-table>
+        <div class="chart"></div>
       </el-main>
     </el-container>
   </el-container>
 </template>
 <script>
+import * as echarts from 'echarts'
 export default {
   data() {
     const item = {
@@ -66,7 +63,6 @@ export default {
 .el-aside {
   color: #333;
 }
-
 .title {
   padding: 10px 0;
   display: flex;
